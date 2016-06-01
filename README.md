@@ -5,11 +5,9 @@ This library contains the direct copy of reworked version of LibTomMath library 
 
 License: WTFPL.
 
-Original source code was obtained from Firebird SQL Server:
-https://github.com/FirebirdSQL/firebird/tree/B3_0_Release/extern/libtommath
+Original source code was obtained from Firebird SQL Server: https://github.com/FirebirdSQL/firebird/tree/B3_0_Release/extern/libtommath
 
-Home repository of LibTomMath:
-https://github.com/libtom/libtommath
+Home repository of LibTomMath: https://github.com/libtom/libtommath
 
 The primary changes:
 - Conversion to C++ code
