@@ -3,7 +3,7 @@
 #pragma hdrstop
 
 #include "source/external/libtommath/set01/ibp_external__libtommatch_set01__tommath_private.h"
-#include <structure/t_memory.h>
+#include "source/ibp_memory.h"
 
 namespace ibp{namespace external{namespace libtommath{namespace set01{
 ////////////////////////////////////////////////////////////////////////////////
@@ -14,17 +14,30 @@ namespace ibp{namespace external{namespace libtommath{namespace set01{
 
 ////////////////////////////////////////////////////////////////////////////////
 
+static void* mp_mem_allocator__alloc(size_t const n) //throw
+{
+ return ibp::TIBPMemoryAllocator::instance.allocate(n); //throw
+}//mp_mem_allocator__alloc
+
+//------------------------------------------------------------------------
+static void mp_mem_allocator__free(void* const p)
+{
+ return ibp::TIBPMemoryAllocator::instance.deallocate(p,0);
+}//mp_mem_allocator__free
+
+////////////////////////////////////////////////////////////////////////////////
+
 #if(!MP_CFG__USE_DEBUG_MEM)
 
 void* mp_mem__malloc(size_t const n)
 {
- return malloc(n);
+ return mp_mem_allocator__alloc(n);
 }//mp_mem__malloc
 
 //------------------------------------------------------------------------
 void mp_mem__free(void* const p)
 {
- return free(p);
+ return mp_mem_allocator__free(p);
 }//mp_mem__free
 
 #else
@@ -95,7 +108,7 @@ void* mp_mem__malloc(size_t const n)
  if(!structure::append_memory_size(n1,mp_debug_mem_data::c_guard_block_size))
   return NULL;
 
- unsigned char* const pBlock=reinterpret_cast<unsigned char*>(malloc(n1));
+ unsigned char* const pBlock=reinterpret_cast<unsigned char*>(mp_mem_allocator__alloc(n1));
 
  if(pBlock == NULL)
   return NULL;
@@ -220,7 +233,7 @@ void mp_mem__free(void* const p)
  //-----------------------------------------
  assert(pGuardBlock1->total_size==n1);
 
- return free(const_cast<unsigned char*>(pBlock));
+ return mp_mem_allocator__free(const_cast<unsigned char*>(pBlock));
 }//mp_mem__free
 
 //------------------------------------------------------------------------
