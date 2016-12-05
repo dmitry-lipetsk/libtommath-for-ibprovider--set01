@@ -182,7 +182,7 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
  // shift the words downward [all those least
  // significant digits we zeroed].
  {
-  /* nox fix rest of carries */
+  /* now fix rest of carries */
 
   /* alias for current word */
   mp_word* _W = (W + n->used);
