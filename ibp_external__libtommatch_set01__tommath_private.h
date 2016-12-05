@@ -63,7 +63,7 @@ namespace ibp{namespace external{namespace libtommath{namespace set01{
 
 /* define heap functions */
 
-void* mp_mem__malloc  (size_t n);
+void* mp_mem__malloc  (size_t n); // throw
 void  mp_mem__free    (void* p);
 
 #if(MP_CFG__USE_DEBUG_MEM!=0 && !defined(NDEBUG))
