@@ -98,21 +98,21 @@ mp_err mp_karatsuba_sqr(const mp_int* const a,
  if((err = mp_sqr(&x1, &x1x1)) != MP_OKAY)
   return err;           /* x1x1 = x1*x1 */
 
-/* now calc (x1+x0)**2 */
+ /* now calc (x1+x0)**2 */
  if((err = s_mp_add(&x1, &x0, &t1)) != MP_OKAY)
   return err;           /* t1 = x1 - x0 */
 
  if((err = mp_sqr(&t1, &t1)) != MP_OKAY)
   return err;           /* t1 = (x1 - x0) * (x1 - x0) */
 
-/* add x0y0 */
+ /* add x0y0 */
  if((err = s_mp_add(&x0x0, &x1x1, &t2)) != MP_OKAY)
   return err;           /* t2 = x0x0 + x1x1 */
 
  if((err = s_mp_sub(&t1, &t2, &t1)) != MP_OKAY)
   return err;           /* t1 = (x1+x0)**2 - (x0x0 + x1x1) */
 
-/* shift by B */
+ /* shift by B */
  if((err = mp_lshd(&t1, B)) != MP_OKAY)
   return err;           /* t1 = (x0x0 + x1x1 - (x1-x0)*(x1-x0))<<B */
 

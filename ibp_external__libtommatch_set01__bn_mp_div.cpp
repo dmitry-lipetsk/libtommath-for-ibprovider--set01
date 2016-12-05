@@ -346,7 +346,7 @@ mp_err mp_div(const mp_int* const a,
   if((res = mp_lshd(&t1, i - t - 1)) != MP_OKAY)
    return res;
 
-  if ((res = mp_sub(&x, &t1, &x)) != MP_OKAY)
+  if((res = mp_sub(&x, &t1, &x)) != MP_OKAY)
    return res;
 
   /* if x < 0 then { x = x + y*b**{i-t-1}; q{i-t-1} -= 1; } */

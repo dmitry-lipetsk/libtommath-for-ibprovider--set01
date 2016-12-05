@@ -143,7 +143,7 @@ mp_err mp_karatsuba_mul(const mp_int* const a,
  if((err = mp_mul(&x1, &y1, &x1y1)) != MP_OKAY)
   return err;          /* x1y1 = x1*y1 */
 
-/* now calc x1+x0 and y1+y0 */
+ /* now calc x1+x0 and y1+y0 */
  if((err = s_mp_add(&x1, &x0, &t1)) != MP_OKAY)
   return err;          /* t1 = x1 - x0 */
 
@@ -153,14 +153,14 @@ mp_err mp_karatsuba_mul(const mp_int* const a,
  if((err = mp_mul(&t1, &x0, &t1)) != MP_OKAY)
   return err;          /* t1 = (x1 + x0) * (y1 + y0) */
 
-/* add x0y0 */
+ /* add x0y0 */
  if((err = mp_add(&x0y0, &x1y1, &x0)) != MP_OKAY)
   return err;          /* t2 = x0y0 + x1y1 */
 
  if((err = s_mp_sub(&t1, &x0, &t1)) != MP_OKAY)
   return err;          /* t1 = (x1+x0)*(y1+y0) - (x1y1 + x0y0) */
 
-/* shift by B */
+ /* shift by B */
  if((err = mp_lshd(&t1, B)) != MP_OKAY)
   return err;          /* t1 = (x0y0 + x1y1 - (x1-x0)*(y1-y0))<<B */
 
@@ -173,7 +173,7 @@ mp_err mp_karatsuba_mul(const mp_int* const a,
  if((err = mp_add(&t1, &x1y1, c)) != MP_OKAY)
   return err;          /* t1 = x0y0 + t1 + x1y1 */
 
-/* Algorithm succeeded set the return code to MP_OKAY */
+ /* Algorithm succeeded set the return code to MP_OKAY */
  assert(err == MP_OKAY); 
 
  return MP_OKAY;
