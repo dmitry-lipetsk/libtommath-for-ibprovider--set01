@@ -91,6 +91,8 @@ mp_err mp_karatsuba_sqr(const mp_int* const a,
 
  mp_clamp(&x0);
 
+ DEBUG_CODE(mp_debug__check_int__total(&x1);) //contains top digits of 'a'
+
  /* now calc the products x0*x0 and x1*x1 */
  if((err = mp_sqr(&x0, &x0x0)) != MP_OKAY)
   return err;           /* x0x0 = x0*x0 */

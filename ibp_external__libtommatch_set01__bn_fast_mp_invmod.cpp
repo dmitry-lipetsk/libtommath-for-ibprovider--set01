@@ -154,6 +154,9 @@ mp_err fast_mp_invmod(const mp_int* const a,
 
  assert(res == MP_OKAY);
 
+ //[2016-12-05] Research asserts
+ DEBUG_CODE(mp_debug__check_int__total(c);)
+
  return MP_OKAY;
 }//fast_mp_invmod
 

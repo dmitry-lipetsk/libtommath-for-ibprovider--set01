@@ -50,6 +50,7 @@ size_t mp_unsigned_bin_size_v2(const mp_int* const a)
  assert_s(c_blockSize > 1);
 
  //-------------------
+ assert(a->used > 0);
 
  //ïîñëåäíèé ıëåìåíò áóäåò îáğàáîòàí îòäåëüíî
  const mp_int::size_type N=(a->used - 1);
