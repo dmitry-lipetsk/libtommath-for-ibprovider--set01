@@ -52,7 +52,7 @@ mp_err mp_mul_d(const mp_int* const a,
  /* alias for a->dp [source] */
  const mp_digit* tmpa = a->dp;
  
- const mp_digit* _ea = (a->dp + a->used);
+ const mp_digit* const _ea = (a->dp + a->used);
 
  /* alias for c->dp [dest] */
  mp_digit* tmpc = c->dp;

@@ -57,7 +57,7 @@ mp_err mp_add_d(const mp_int* const a,
   /* source alias */
   const mp_digit* tmpa = a->dp;
 
-  const mp_digit* _ea = (a->dp + a->used);
+  const mp_digit* const _ea = (a->dp + a->used);
 
   /* destination alias */
   mp_digit* tmpc = c->dp;

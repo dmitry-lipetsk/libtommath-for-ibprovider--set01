@@ -7,7 +7,7 @@
 namespace ibp{namespace external{namespace libtommath{namespace set01{
 ////////////////////////////////////////////////////////////////////////////////
 
-mp_err mp_set_v2(mp_int* const a, mp_digit b)
+mp_err mp_set_v2(mp_int* const a, mp_digit const b)
 {
  DEBUG_CODE(mp_debug__check_int__total(a);)
 
