@@ -254,10 +254,13 @@ mp_err mp_div(const mp_int* const a,
  //for(int i = n; i >= (t + 1); i--)
  for(mp_int::size_type i = n; i > t; --i)
  {
-  if(i > x.used)
+  if(i >= x.used)
   {
    continue;
   }
+
+  assert(i < x.used);
+  assert(t < y.used);
 
   /* step 3.1 if xi == yt then set q{i-t-1} to b-1,
    * otherwise set q{i-t-1} to (xi*b + x{i-1})/yt */
@@ -314,6 +317,10 @@ mp_err mp_div(const mp_int* const a,
 
    assert(t1.alloc >= 2);
 
+   assert(t < y.used);
+
+   assert(y.dp[t] != 0); //[2016-12-05]
+
    t1.dp[0] = (t < 1) ? 0 : y.dp[t - 1];
    t1.dp[1] = y.dp[t];
    t1.used  = 2;
@@ -325,6 +332,10 @@ mp_err mp_div(const mp_int* const a,
    assert(t2.alloc >= 3);
 
    assert(t2.used <= 3); //[2016-05-30]
+
+   assert(i < x.used);
+
+   assert(x.dp[i] != 0); //[2016-12-05]
 
    t2.dp[0] = (i < 2) ? 0 : x.dp[i - 2];
    t2.dp[1] = (i < 1) ? 0 : x.dp[i - 1];
