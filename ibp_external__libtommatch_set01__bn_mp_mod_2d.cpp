@@ -73,7 +73,7 @@ mp_err mp_mod_2d(const mp_int*    const a,
  assert((b / MP_DIGIT_BIT) < c->used);
 
  c->dp[b / MP_DIGIT_BIT] &=
-  (mp_digit)((((mp_digit)1) << (((mp_digit)b) % MP_DIGIT_BIT)) - ((mp_digit)1));
+  (mp_digit)((((mp_digit)1) << unsigned(b % MP_DIGIT_BIT)) - ((mp_digit)1));
 
  mp_clamp(c);
 
