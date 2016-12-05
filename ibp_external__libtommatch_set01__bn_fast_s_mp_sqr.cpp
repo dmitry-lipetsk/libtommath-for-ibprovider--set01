@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "source/external/libtommath/set01/ibp_external__libtommatch_set01__tommath_private.h"
+#include <structure/t_limits.h>
 
 namespace ibp{namespace external{namespace libtommath{namespace set01{
 ////////////////////////////////////////////////////////////////////////////////
