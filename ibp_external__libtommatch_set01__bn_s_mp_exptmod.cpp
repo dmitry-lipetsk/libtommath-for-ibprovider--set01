@@ -140,6 +140,9 @@ mp_err s_mp_exptmod(const mp_int* const G,
   */
  for(unsigned x = ((1 << (winsize - 1)) + 1); x != (1 << winsize); ++x)
  {
+  assert(x>0);
+  assert(x<_DIM_(M));
+
   if((err = mp_mul(&M[x - 1], &M[1], &M[x])) != MP_OKAY)
    return err;
 
