@@ -199,6 +199,8 @@ mp_err mp_exptmod_fast(const mp_int* const G,
  {
   const size_t ii = (((size_t)1) << _c);
 
+  assert(ii<_DIM_(M));
+
   if((err = mp_sqr(&M[ii], &M[ii])) != MP_OKAY)
    return err;
 
@@ -209,8 +211,8 @@ mp_err mp_exptmod_fast(const mp_int* const G,
  /* create upper table */
  for(unsigned x = (((size_t)1) << (winsize - 1)) + 1; x < (((size_t)1) << winsize); ++x)
  {
-  //! \todo
-  //!  ƒобавить проверку допустимости значени€ 'x'
+  assert(x>0);
+  assert(x<_DIM_(M));
 
   if((err = mp_mul(&M[x - 1], &M[1], &M[x])) != MP_OKAY)
    return err;
