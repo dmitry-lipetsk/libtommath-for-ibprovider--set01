@@ -480,6 +480,18 @@ class mp_int_x:public mp_int
   mp_int_x();
 
  ~mp_int_x();
+
+  mp_digit get_safe(size_type const i)const
+  {
+   assert(this->used <= this->alloc);
+
+   CHECK_READ_TYPED_PTR(this->dp,this->alloc);
+
+   if(i < this->used)
+    return this->dp[i];
+
+   return 0;
+  }//get_safe
 };//class mp_int_x
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -166,12 +166,12 @@ mp_err mp_div(const mp_int* const a,
  q.used = (a->used + 2);
 
  //-----------
- if((res = mp_grow(&t1, 2)) != MP_OKAY)
-  return res;
+ // if((res = mp_grow(&t1, 2)) != MP_OKAY)
+ //  return res;
 
  //-----------
- if((res = mp_grow(&t2, 3)) != MP_OKAY)
-  return res;
+ // if((res = mp_grow(&t2, 3)) != MP_OKAY)
+ //  return res;
 
  //-----------
  if((res = mp_copy(a, &x)) != MP_OKAY)
@@ -254,17 +254,25 @@ mp_err mp_div(const mp_int* const a,
  //for(int i = n; i >= (t + 1); i--)
  for(mp_int::size_type i = n; i > t; --i)
  {
-  if(i >= x.used)
+  assert(i > 0);
+
+  DEBUG_CODE(mp_debug__check_int__total(&x));
+
+  if(i > x.used)
   {
    continue;
   }
 
-  assert(i < x.used);
+  assert((i == x.used) || (i < x.used));
+
+  assert(x.used > 0); // [2017-03-14] Research assert
+
+  assert(i < x.alloc); // [2017-03-14] Research assert. Can be removed. See get_safe
   assert(t < y.used);
 
   /* step 3.1 if xi == yt then set q{i-t-1} to b-1,
    * otherwise set q{i-t-1} to (xi*b + x{i-1})/yt */
-  if(x.dp[i] == y.dp[t])
+  if(x.get_safe(i) == y.dp[t])
   {
    assert(i > t);
    assert((i - t - 1) < q.alloc);
@@ -278,7 +286,7 @@ mp_err mp_div(const mp_int* const a,
 
    assert(i > 0);
 
-   tmp  = ((mp_word)x.dp[i]) << ((mp_word)MP_DIGIT_BIT);
+   tmp  = ((mp_word)x.get_safe(i)) << ((mp_word)MP_DIGIT_BIT);
    tmp |= ((mp_word)x.dp[i - 1]);
    tmp /= ((mp_word)y.dp[t]);
 
@@ -313,34 +321,44 @@ mp_err mp_div(const mp_int* const a,
    q.dp[i - t - 1] = (q.dp[i - t - 1] - 1) & MP_MASK;
 
    /* find left hand */
+   if((res = mp_grow(&t1, 2)) != MP_OKAY)
+    return res;
+
    mp_zero(&t1);
 
    assert(t1.alloc >= 2);
 
    assert(t < y.used);
 
-   assert(y.dp[t] != 0); //[2016-12-05]
+   //assert(y.dp[t] != 0); //[2016-12-05]
 
    t1.dp[0] = (t < 1) ? 0 : y.dp[t - 1];
    t1.dp[1] = y.dp[t];
    t1.used  = 2;
 
+   mp_clamp(&t1); // [2017-03-14]
+
    if((res = mp_mul_d(&t1, q.dp[i - t - 1], &t1)) != MP_OKAY)
     return res;
 
    /* find right hand */
+   if((res = mp_grow(&t2, 3)) != MP_OKAY)
+    return res;
+
    assert(t2.alloc >= 3);
 
    assert(t2.used <= 3); //[2016-05-30]
 
-   assert(i < x.used);
+   assert(i < x.alloc); // [2017-03-14] Research assert. Can be removed. See get_safe
 
-   assert(x.dp[i] != 0); //[2016-12-05]
+   //assert(x.dp[i] != 0); //[2016-12-05]
 
    t2.dp[0] = (i < 2) ? 0 : x.dp[i - 2];
    t2.dp[1] = (i < 1) ? 0 : x.dp[i - 1];
-   t2.dp[2] = x.dp[i];
+   t2.dp[2] = x.get_safe(i);
    t2.used  = 3;
+
+   mp_clamp(&t2);  // [2017-03-14]
   }
   while (mp_cmp_mag(&t1, &t2) == MP_GT);
 
