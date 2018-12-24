@@ -39,7 +39,7 @@ mp_err mp_add_d(const mp_int* const a,
   return mp_copy(a, c);
  }//if
 
- assert(b > 0);
+ assert_hint(b > 0);
 
  /* old number of used digits in c */
  mp_int::size_type const oldused = c->used;

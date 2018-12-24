@@ -45,7 +45,7 @@ mp_err mp_add(const mp_int* const a,
   return s_mp_add(a, b, c);
  }//if
 
- assert(sa != sb);
+ assert_hint(sa != sb);
 
  /* one positive, the other negative */
  /* subtract the one with the greater magnitude from */
