@@ -37,7 +37,8 @@ int mp_reduce_is_2k_l(const mp_int* const a)
   return MP_YES;
  }
 
- if(a->used > 1)
+ assert_hint(a->used > 1);
+
  {
   /* if more than half of the digits are -1 we're sold */
   mp_int::size_type iy = 0;
@@ -53,9 +54,7 @@ int mp_reduce_is_2k_l(const mp_int* const a)
   }//for ix
 
   return (iy >= (a->used / 2)) ? MP_YES : MP_NO;
- }//if
-
- return MP_NO;
+ }//local
 }//mp_reduce_is_2k_l
 
 ////////////////////////////////////////////////////////////////////////////////
