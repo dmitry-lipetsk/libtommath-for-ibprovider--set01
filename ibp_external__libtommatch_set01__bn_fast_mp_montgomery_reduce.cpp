@@ -46,6 +46,8 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
   return MP_VAL;
  }//if
 
+ assert_hint(n->used <= ((MP_WARRAY- 1) / 2));
+
  const mp_int::size_type _cW = ((n->used * 2) + 1);
 
  assert(_cW <= MP_WARRAY);
@@ -56,6 +58,10 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
 
   return MP_VAL;
  }//if
+
+ assert_hint(x->used <= _cW);
+
+ assert(_cW <= MP_WARRAY); // Again
 
  //-----------------------------------------
  mp_err res;
@@ -115,6 +121,15 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
  {
   assert(ix < n->used);
 
+  //[2018-12-22] Hint
+  assert_s(_DIM_(W)==MP_WARRAY);
+  assert(n->used <= ((MP_WARRAY- 1) / 2));
+
+  assert(((MP_WARRAY- 1) / 2) < MP_WARRAY);
+
+  //[2018-12-22] So
+  assert(ix<_DIM_(W));
+
   {
    /* mu = ai * m' mod b
    *
@@ -146,6 +161,7 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
    /* Alias for the columns set by an offset of ix */
    assert((ix == 0) || (ix > 0));
    assert(ix <= _DIM_(W));
+   assert(ix < _DIM_(W)); // [2018-12-22] Again
 
    mp_word* _W = (W + ix);
 
