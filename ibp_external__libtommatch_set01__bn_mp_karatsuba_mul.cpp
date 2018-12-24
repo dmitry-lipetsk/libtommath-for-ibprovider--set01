@@ -174,7 +174,7 @@ mp_err mp_karatsuba_mul(const mp_int* const a,
   return err;          /* t1 = x0y0 + t1 + x1y1 */
 
  /* Algorithm succeeded set the return code to MP_OKAY */
- assert(err == MP_OKAY); 
+ assert_hint(err == MP_OKAY); 
 
  return MP_OKAY;
 }//mp_karatsuba_mul

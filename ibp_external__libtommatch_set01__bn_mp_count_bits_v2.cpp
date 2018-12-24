@@ -36,7 +36,7 @@ mp_err mp_count_bits_v2(const mp_int*     const a,
  if(a->used == 0)
   return MP_OKAY;
 
- assert(a->used > 0);
+ assert_hint(a->used > 0);
 
  /* get number of digits and add that */
  mp_int::size_type const n = (a->used - 1);
@@ -54,7 +54,7 @@ mp_err mp_count_bits_v2(const mp_int*     const a,
  /* take the last digit and count the bits in it */
  for(mp_digit q = a->dp[n]; q != 0; q = (q / 2))
  {
-  assert(q > 0);
+  assert_hint(q > 0);
 
   if(r == structure::t_numeric_limits<mp_int::size_type>::max_value())
   {

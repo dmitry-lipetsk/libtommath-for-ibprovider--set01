@@ -41,6 +41,8 @@ mp_err mp_div_3(const mp_int* const a,
  if((res = mp_grow(&q, a->used)) != MP_OKAY)
   return res;
 
+ assert_hint(res == MP_OKAY);
+
  q.used = a->used;
  q.sign = a->sign;
 
@@ -104,7 +106,7 @@ mp_err mp_div_3(const mp_int* const a,
   mp_exch(&q, c);
  }//if
 
- assert(res == MP_OKAY);
+ assert_hint(res == MP_OKAY);
 
  return res;
 }//mp_div_3

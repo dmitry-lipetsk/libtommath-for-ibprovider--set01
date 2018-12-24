@@ -32,14 +32,14 @@ int mp_reduce_is_2k(const mp_int* const a)
   return MP_NO;
  }//if
 
- assert(a->used > 0);
+ assert_hint(a->used > 0);
 
  if(a->used == 1)
  {
   return MP_YES;
  }//if
 
- assert(a->used > 1);
+ assert_hint(a->used > 1);
 
  mp_int::size_type N = (a->used - 1);
 
@@ -55,7 +55,7 @@ int mp_reduce_is_2k(const mp_int* const a)
    return MP_NO;
  }//if
 
- assert(a->used > 1);
+ assert_hint(a->used > 1);
 
  assert(a->dp[N] != 0);
 

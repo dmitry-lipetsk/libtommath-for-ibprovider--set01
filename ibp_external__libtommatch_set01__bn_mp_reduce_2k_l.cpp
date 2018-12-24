@@ -70,7 +70,7 @@ mp_err mp_reduce_2k_l(mp_int*       const a,
   break;
  }//for[ever]
 
- assert(res == MP_OKAY);
+ assert_hint(res == MP_OKAY);
 
  return MP_OKAY;
 }//mp_reduce_2k_l

@@ -129,7 +129,7 @@ mp_err mp_karatsuba_sqr(const mp_int* const a,
 
  DEBUG_CODE(mp_debug__check_int__total(b);)
 
- assert(err == MP_OKAY);
+ assert_hint(err == MP_OKAY);
 
  return MP_OKAY;
 }//mp_karatsuba_sqr

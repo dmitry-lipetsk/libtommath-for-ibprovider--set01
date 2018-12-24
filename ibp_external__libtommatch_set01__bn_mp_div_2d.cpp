@@ -46,12 +46,14 @@ mp_err mp_div_2d(const mp_int*    const a,
   if((res = mp_copy(a, c)) != MP_OKAY)
    return res;
 
+  assert_hint(res == MP_OKAY);
+
   if(d != NULL)
   {
    mp_zero(d);
   }
 
-  assert(res == MP_OKAY);
+  assert_hint(res == MP_OKAY);
 
   return MP_OKAY;
  }//if
@@ -78,7 +80,7 @@ mp_err mp_div_2d(const mp_int*    const a,
  /* shift any bit count < MP_DIGIT_BIT */
  if(const mp_digit D = (mp_digit)(b % MP_DIGIT_BIT))
  {
-  assert(D > 0);
+  assert_hint(D > 0);
   assert(D < MP_DIGIT_BIT);
 
   /* mask */

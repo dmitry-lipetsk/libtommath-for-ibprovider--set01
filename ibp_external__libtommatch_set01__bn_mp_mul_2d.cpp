@@ -41,7 +41,7 @@ mp_err mp_mul_2d(const mp_int*    const a,
  if(mp_iszero(c) || (b == 0))
   return MP_OKAY;
 
- assert(b > 0);
+ assert_hint(b > 0);
 
  const mp_int::size_type lshift_bytes =(b / MP_DIGIT_BIT);
  const unsigned          lshift_bits  =(b % MP_DIGIT_BIT);
@@ -56,7 +56,7 @@ mp_err mp_mul_2d(const mp_int*    const a,
  /* shift any bit count < MP_DIGIT_BIT */
  if(const unsigned d = lshift_bits)
  {
-  assert(d > 0);
+  assert_hint(d > 0);
 
   /* bitmask for carries */
   mp_digit const mask = (((mp_digit)1) << d) - 1;

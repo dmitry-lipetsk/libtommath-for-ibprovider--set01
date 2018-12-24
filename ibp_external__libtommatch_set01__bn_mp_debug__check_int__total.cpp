@@ -28,7 +28,7 @@ void mp_debug__check_int__total(const mp_int* const a)
  }
  else
  {
-  assert(a->used>0);
+  assert_hint(a->used>0);
 
   assert(a->sign==MP_ZPOS || a->sign==MP_NEG);
 

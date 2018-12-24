@@ -61,18 +61,16 @@ mp_err mp_div_d(const mp_int* const a,
   mp_debug__check_int__light(c);
 #endif
 
- mp_err res;
-
  /* cannot divide by zero */
  if(b == 0)
  {
   return MP_VAL;
  }
 
- assert(b>0);
+ assert_hint(b>0);
 
  /* quick outs */
- if((b == 1) || (mp_iszero(a) == 1))
+ if((b == 1) || (mp_iszero(a) == 1)) //! \todo use MP_YES
  {
   if(d != NULL)
   {
@@ -87,7 +85,7 @@ mp_err mp_div_d(const mp_int* const a,
   return MP_OKAY;
  }//if
 
- assert(b>1);
+ assert_hint(b>1);
 
  /* power of two ? */
  {
@@ -123,8 +121,12 @@ mp_err mp_div_d(const mp_int* const a,
  /* no easy answer [c'est la vie].  Just division */
  mp_int_x q;
 
+ mp_err res;
+
  if((res = mp_grow(&q, a->used)) != MP_OKAY)
   return res;
+
+ assert_hint(res == MP_OKAY);
 
  q.used = a->used;
  q.sign = a->sign;
@@ -170,7 +172,7 @@ mp_err mp_div_d(const mp_int* const a,
   mp_exch(&q, c);
  }//if
 
- assert(res == MP_OKAY);
+ assert_hint(res == MP_OKAY);
 
  return res;
 }//mp_div_d

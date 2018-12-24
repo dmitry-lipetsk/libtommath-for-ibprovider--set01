@@ -146,7 +146,7 @@ mp_err fast_mp_invmod(const mp_int* const a,
  }//while
 
  //[2016-05-24] Research. Can be used for code normalization ...
- assert(a->sign == neg);
+ assert_hint(a->sign == neg);
 
  mp_exch(&D, c);
 

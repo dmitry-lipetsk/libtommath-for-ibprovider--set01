@@ -56,7 +56,7 @@ mp_err mp_read_unsigned_bin_v2(mp_int*        const a,
    }
    else
    {
-    assert(a->used == 0);
+    assert_hint(a->used == 0);
 
     if((res = mp_grow(a, 1)) != MP_OKAY)
      return res;

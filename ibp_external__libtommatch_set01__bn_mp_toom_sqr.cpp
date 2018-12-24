@@ -210,7 +210,7 @@ mp_err mp_toom_sqr(const mp_int* const a,
  if((res = mp_add(&tmp1, b, b)) != MP_OKAY)
   return res;
 
- assert(res == MP_OKAY);
+ assert_hint(res == MP_OKAY);
 
  DEBUG_CODE(mp_debug__check_int__total(b);)
 

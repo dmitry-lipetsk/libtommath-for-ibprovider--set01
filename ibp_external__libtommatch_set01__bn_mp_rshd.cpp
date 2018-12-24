@@ -35,6 +35,8 @@ void mp_rshd(mp_int*          const a,
  if(b == 0)
   return;
 
+ assert_hint(b > 0);
+
  /* if b > used then simply zero it and return */
  if(a->used <= b)
  {
@@ -43,8 +45,8 @@ void mp_rshd(mp_int*          const a,
   return;
  }//if
 
- assert(b > 0);
- assert(b < a->used);
+ assert_hint(b > 0);
+ assert_hint(b < a->used);
 
  {
   /* shift the digits down */
@@ -68,8 +70,8 @@ void mp_rshd(mp_int*          const a,
 
   const mp_digit* const e2 = (a->dp + a->used);
 
-  assert(b > 0);
-  assert(b < a->used);
+  assert_hint(b > 0);
+  assert_hint(b < a->used);
 
   a->used -= b;
 

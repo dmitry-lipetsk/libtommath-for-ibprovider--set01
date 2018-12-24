@@ -50,7 +50,7 @@ mp_err s_mp_mul_digs(const mp_int*    const a,
   return MP_VAL;
  }//if
 
- assert(a->used <= digs);
+ assert_hint(a->used <= digs);
 
  //-----------------------------------------------------------------------
  mp_err res;

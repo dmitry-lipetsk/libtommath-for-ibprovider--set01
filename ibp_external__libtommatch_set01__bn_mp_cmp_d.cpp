@@ -41,7 +41,7 @@ int mp_cmp_d(const mp_int* const a,
   return MP_EQ;
  }//if
 
- assert(a->used > 0);
+ assert_hint(a->used > 0);
 
  /* compare based on sign */
  if(a->sign == MP_NEG)

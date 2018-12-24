@@ -197,13 +197,13 @@ mp_err mp_div(const mp_int* const a,
 
  mp_int::size_type norm = (total_bits_in_y % MP_DIGIT_BIT);
 
- assert(norm < MP_DIGIT_BIT);
+ assert_hint(norm < MP_DIGIT_BIT);
 
  if(norm < (MP_DIGIT_BIT - 1))
  {
   norm = ((MP_DIGIT_BIT - 1) - norm);
 
-  assert(norm > 0);
+  assert_hint(norm > 0);
 
   if((res = mp_mul_2d(&x, norm, &x)) != MP_OKAY)
    return res;
@@ -213,7 +213,7 @@ mp_err mp_div(const mp_int* const a,
  }
  else
  {
-  assert(norm == (MP_DIGIT_BIT - 1));
+  assert_hint(norm == (MP_DIGIT_BIT - 1));
   
   norm = 0;
  }//else
@@ -254,7 +254,7 @@ mp_err mp_div(const mp_int* const a,
  //for(int i = n; i >= (t + 1); i--)
  for(mp_int::size_type i = n; i > t; --i)
  {
-  assert(i > 0);
+  assert_hint(i > 0);
 
   DEBUG_CODE(mp_debug__check_int__total(&x));
 
@@ -265,7 +265,7 @@ mp_err mp_div(const mp_int* const a,
 
   assert((i == x.used) || (i < x.used));
 
-  assert(x.used > 0); // [2017-03-14] Research assert
+  assert_hint(x.used > 0); // [2017-03-14] Research assert
 
   assert(i < x.alloc); // [2017-03-14] Research assert. Can be removed. See get_safe
   assert(t < y.used);
@@ -274,7 +274,7 @@ mp_err mp_div(const mp_int* const a,
    * otherwise set q{i-t-1} to (xi*b + x{i-1})/yt */
   if(x.get_safe(i) == y.dp[t])
   {
-   assert(i > t);
+   assert_hint(i > t);
    assert((i - t - 1) < q.alloc);
    assert((i - t - 1) < q.used);  // [2016-05-30] Research
 
@@ -284,7 +284,7 @@ mp_err mp_div(const mp_int* const a,
   {
    mp_word tmp;
 
-   assert(i > 0);
+   assert_hint(i > 0);
 
    tmp  = ((mp_word)x.get_safe(i)) << ((mp_word)MP_DIGIT_BIT);
    tmp |= ((mp_word)x.dp[i - 1]);
@@ -293,7 +293,7 @@ mp_err mp_div(const mp_int* const a,
    if (tmp > (mp_word)MP_MASK)
     tmp = MP_MASK;
 
-   assert(i > t);
+   assert_hint(i > t);
    assert((i - t - 1) < q.alloc);
    assert((i - t - 1) < q.used);  // [2016-05-30] Research
 
@@ -306,7 +306,7 @@ mp_err mp_div(const mp_int* const a,
      do q{i-t-1} -= 1;
   */
 
-  assert(i > t);
+  assert_hint(i > t);
   assert((i - t - 1) < q.alloc);
   assert((i - t - 1) < q.used);  // [2016-05-30] Research
 
@@ -314,7 +314,7 @@ mp_err mp_div(const mp_int* const a,
 
   do
   {
-   assert(i > t);
+   assert_hint(i > t);
    assert((i - t - 1) < q.alloc);
    assert((i - t - 1) < q.used);  // [2016-05-30] Research
 
@@ -353,24 +353,31 @@ mp_err mp_div(const mp_int* const a,
 
    //assert(x.dp[i] != 0); //[2016-12-05]
 
+   //[2018-12-24] Research
+   assert_hint(i > t); //Again
+   assert_hint(i > 0); //So
+
    t2.dp[0] = (i < 2) ? 0 : x.dp[i - 2];
-   t2.dp[1] = (i < 1) ? 0 : x.dp[i - 1];
+   t2.dp[1] = (i < 1) ? 0 : x.dp[i - 1]; // [2018-12-24] Always = x.dp[i - 1];
    t2.dp[2] = x.get_safe(i);
    t2.used  = 3;
+
+   //[2018-12-24] Research
+   assert(t2.dp[1]==x.dp[i - 1]);
 
    mp_clamp(&t2);  // [2017-03-14]
   }
   while (mp_cmp_mag(&t1, &t2) == MP_GT);
 
   /* step 3.3 x = x - q{i-t-1} * y * b**{i-t-1} */
-  assert(i > t);
+  assert_hint(i > t);
   assert((i - t - 1) < q.alloc);
   assert((i - t - 1) < q.used);  // [2016-05-30] Research
 
   if((res = mp_mul_d(&y, q.dp[i - t - 1], &t1)) != MP_OKAY)
    return res;
 
-  assert(i > t);
+  assert_hint(i > t);
 
   if((res = mp_lshd(&t1, i - t - 1)) != MP_OKAY)
    return res;
@@ -384,7 +391,7 @@ mp_err mp_div(const mp_int* const a,
    if((res = mp_copy(&y, &t1)) != MP_OKAY)
     return res;
 
-   assert(i > t);
+   assert_hint(i > t);
 
    if((res = mp_lshd(&t1, i - t - 1)) != MP_OKAY)
     return res;
@@ -392,13 +399,13 @@ mp_err mp_div(const mp_int* const a,
    if((res = mp_add(&x, &t1, &x)) != MP_OKAY)
     return res;
 
-   assert(i > t);
+   assert_hint(i > t);
    assert((i - t - 1) < q.alloc);
    assert((i - t - 1) < q.used);  // [2016-05-30] Research
 
    q.dp[i - t - 1] = (q.dp[i - t - 1] - 1UL) & MP_MASK;
   }//if
- }//for
+ }//for i
 
  /* now q is the quotient and x is the remainder
   * [which we have to normalize]

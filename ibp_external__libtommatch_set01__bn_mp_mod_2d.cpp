@@ -47,7 +47,7 @@ mp_err mp_mod_2d(const mp_int*    const a,
  if(b >= (a->used * MP_DIGIT_BIT))
   return mp_copy(a, c);
 
- assert(b < (a->used * MP_DIGIT_BIT));
+ assert_hint(b < (a->used * MP_DIGIT_BIT));
 
  assert(a->used > 0);
 

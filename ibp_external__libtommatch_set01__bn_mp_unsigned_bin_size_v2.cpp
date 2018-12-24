@@ -31,6 +31,8 @@ size_t mp_unsigned_bin_size_v2(const mp_int* const a)
  if(a->used == 0)
   return 0;
 
+ assert_hint(a->used > 0);
+
  //---
  const size_t c_bits_in_digit = (CHAR_BIT * sizeof(mp_digit));
 
@@ -50,7 +52,7 @@ size_t mp_unsigned_bin_size_v2(const mp_int* const a)
  assert_s(c_blockSize > 1);
 
  //-------------------
- assert(a->used > 0);
+ assert_hint(a->used > 0);
 
  //ïîñëåäíèé ıëåìåíò áóäåò îáğàáîòàí îòäåëüíî
  const mp_int::size_type N=(a->used - 1);

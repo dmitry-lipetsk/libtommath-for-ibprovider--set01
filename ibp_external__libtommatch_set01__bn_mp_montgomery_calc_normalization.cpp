@@ -45,7 +45,7 @@ mp_err mp_montgomery_calc_normalization(mp_int*       const a,
  mp_int::size_type bits = (total_bits_in_b % MP_DIGIT_BIT);
 
  assert(bits == 0 || bits > 0); // bits >= 0
- assert(bits < MP_DIGIT_BIT);
+ assert_hint(bits < MP_DIGIT_BIT);
   
  if(b->used > 1)
  {
@@ -65,7 +65,10 @@ mp_err mp_montgomery_calc_normalization(mp_int*       const a,
  }//else
 
  assert(bits == 0 || bits > 0); // bits >= 0
- assert(bits < MP_DIGIT_BIT);
+
+ assert_s(MP_DIGIT_BIT>1);
+
+ assert_hint(bits < MP_DIGIT_BIT);
 
  /* now compute C = A * B mod b */
 
@@ -73,7 +76,7 @@ mp_err mp_montgomery_calc_normalization(mp_int*       const a,
 
  for(mp_int::size_type x = bits, _c = (MP_DIGIT_BIT + 1); x != _c; ++x)
  {
-  assert(x < _c);
+  assert_hint(x < _c);
 
   if((res = mp_mul_2(a, a)) != MP_OKAY)
    return res;

@@ -31,7 +31,7 @@ int mp_dr_is_modulus(const mp_int* const a)
  if(a->used < 2)
   return 0;
 
- assert(a->used >= 2);
+ assert_hint(a->used >= 2);
 
  /* must be of the form b**k - a [a <= b] so all
   * but the first digit must be equal to -1 (mod b).

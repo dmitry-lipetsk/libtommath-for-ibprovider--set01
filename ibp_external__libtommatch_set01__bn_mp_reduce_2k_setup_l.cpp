@@ -44,7 +44,7 @@ mp_err mp_reduce_2k_setup_l(const mp_int* const a,
  if((res = s_mp_sub(&tmp, a, d)) != MP_OKAY)
   return res;
 
- assert(res == MP_OKAY);
+ assert_hint(res == MP_OKAY);
 
  return MP_OKAY;
 }//mp_reduce_2k_setup_l

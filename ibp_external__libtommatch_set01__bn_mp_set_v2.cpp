@@ -27,7 +27,7 @@ mp_err mp_set_v2(mp_int* const a, mp_digit const b)
   return MP_OKAY;
  }//if b == 0
 
- assert(b > 0);
+ assert_hint(b > 0);
 
  const mp_err err = mp_grow(a,1);
 

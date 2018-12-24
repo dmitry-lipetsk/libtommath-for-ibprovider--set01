@@ -79,7 +79,7 @@ std::wstring mp_dump_w(const mp_int* const x)
  }
  else
  {
-  assert(x->alloc<x->used); //incorrect state!
+  assert_hint(x->alloc<x->used); //incorrect state!
 
   s<<L"; dp={";
 

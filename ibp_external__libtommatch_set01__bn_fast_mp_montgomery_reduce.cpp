@@ -50,7 +50,7 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
 
  const mp_int::size_type _cW = ((n->used * 2) + 1);
 
- assert(_cW <= MP_WARRAY);
+ assert_hint(_cW <= MP_WARRAY);
 
  if(x->used > _cW)
  {
@@ -61,7 +61,7 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
 
  assert_hint(x->used <= _cW);
 
- assert(_cW <= MP_WARRAY); // Again
+ assert_hint(_cW <= MP_WARRAY); // Again
 
  //-----------------------------------------
  mp_err res;
@@ -123,12 +123,14 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
 
   //[2018-12-22] Hint
   assert_s(_DIM_(W)==MP_WARRAY);
-  assert(n->used <= ((MP_WARRAY- 1) / 2));
+  assert_hint(n->used <= ((MP_WARRAY- 1) / 2)); //Again. See above.
 
   assert(((MP_WARRAY- 1) / 2) < MP_WARRAY);
 
+  assert_hint(n->used < MP_WARRAY);
+
   //[2018-12-22] So
-  assert(ix<_DIM_(W));
+  assert_hint(ix < _DIM_(W)); // equal to : ix < MP_WARRAY
 
   {
    /* mu = ai * m' mod b
@@ -160,8 +162,8 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
 
    /* Alias for the columns set by an offset of ix */
    assert((ix == 0) || (ix > 0));
-   assert(ix <= _DIM_(W));
-   assert(ix < _DIM_(W)); // [2018-12-22] Again
+   assert_hint(ix <= _DIM_(W));
+   assert_hint(ix < _DIM_(W)); // [2018-12-22] Again
 
    mp_word* _W = (W + ix);
 
@@ -181,12 +183,23 @@ mp_err fast_mp_montgomery_reduce(mp_int*       const x,
   /* now fix carry for next digit, W[ix+1] */
   {
    assert((ix == 0) || (ix > 0));
-   assert(ix < _DIM_(W));
+   assert_hint(ix < _DIM_(W));
 
    mp_word const D = (W[ix] >> ((mp_word)MP_DIGIT_BIT));
 
+   //--- HINT
+   assert_s(_DIM_(W)==MP_WARRAY);
+   assert_hint(n->used <= ((MP_WARRAY- 1) / 2)); //Again. See above.
+
+   assert(ix < n->used);
+   assert_hint(ix < ((MP_WARRAY- 1) / 2));
+   assert_hint((2*ix) < (MP_WARRAY- 1));
+   assert_hint((2*ix + 1) < MP_WARRAY);
+   assert_hint((ix + 1) < MP_WARRAY); // [A] 
+
+   //---
    assert((ix == 0) || (ix > 0));
-   assert((ix + 1) <  _DIM_(W));
+   assert_hint((ix + 1) < _DIM_(W)); // see [A]
 
    assert(D <= (structure::t_numeric_limits<mp_word>::max_value() - W[ix + 1]));
 

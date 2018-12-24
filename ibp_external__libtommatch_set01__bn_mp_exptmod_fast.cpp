@@ -182,7 +182,7 @@ mp_err mp_exptmod_fast(const mp_int* const G,
  }
  else
  {
-  assert(redmode != 0);
+  assert_hint(redmode != 0); //signed value
 
   if((err = mp_set_v2(&res, 1)) != MP_OKAY)
    return err;
@@ -211,7 +211,7 @@ mp_err mp_exptmod_fast(const mp_int* const G,
  /* create upper table */
  for(unsigned x = (((size_t)1) << (winsize - 1)) + 1; x < (((size_t)1) << winsize); ++x)
  {
-  assert(x>0);
+  assert_hint(x>0);
   assert(x<_DIM_(M));
 
   if((err = mp_mul(&M[x - 1], &M[1], &M[x])) != MP_OKAY)

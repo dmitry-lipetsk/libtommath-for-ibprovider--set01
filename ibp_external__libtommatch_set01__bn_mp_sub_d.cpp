@@ -43,7 +43,7 @@ mp_err mp_sub_d(const mp_int* const a,
   return mp_copy(a, c);
  }//if b == 0
 
- assert(b > 0);
+ assert_hint(b > 0);
 
  mp_int::size_type const oldused = c->used;
 
@@ -124,7 +124,7 @@ mp_err mp_sub_d(const mp_int* const a,
  }
  else
  {
-  assert(a->used > 0);
+  assert_hint(a->used > 0);
 
   if((res = mp_grow(c, a->used)) != MP_OKAY)
    return res;
