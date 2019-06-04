@@ -138,7 +138,7 @@ mp_err s_mp_exptmod(const mp_int* const G,
  /* create upper table, that is M[x] = M[x-1] * M[1] (mod P)
   * for x = (2**(winsize - 1) + 1) to (2**winsize - 1)
   */
- for(unsigned x = ((1 << (winsize - 1)) + 1); x != (1 << winsize); ++x)
+ for(unsigned x = ((1u << (winsize - 1)) + 1); x != (1u << winsize); ++x)
  {
   assert_hint(x>0);
   assert(x<_DIM_(M));
